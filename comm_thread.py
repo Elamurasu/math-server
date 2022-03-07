@@ -12,3 +12,25 @@ class MathServerCommunicationThread(Thread):
 		p = Popen(['bc'], stdout=PIPE, stdin=PIPE, stderr=STDOUT)
 		output = ProcessOutputThread(p, self.conn)
 		output.start()
+
+while not p.stdout.closed or not self.conn._closed:
+			try: ## PRESENTATION LAYER 6
+				data = self.conn.recv(1024)
+				if not data:
+					break
+				else:
+					try: 
+						data = data.decode()
+						query = data.strip()
+						if query == 'quit' or query == 'exit':
+							p.communicate(query.encode(), timeout=1)
+							if p.poll() is not None:
+								break
+						query = query + '\n'
+						p.stdin.write(query.encode())
+						p.stdin.flush()
+					except:
+						pass
+			except:
+				pass
+		self.conn.close()
