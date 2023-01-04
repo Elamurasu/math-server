@@ -8,7 +8,7 @@ class MathServerCommunicationThread(Thread):
 		print("{} connected with back port {}".format(self.addr[0], self.addr[1]))
 		self.conn.sendall("Simple Math Server developed by LAHTP \n\nGive any math expressions, and I will answer you :) \n\n$ ".encode())
 
-		## aPPLICATION LAYER 7
+		## APPLICATION LAYER 7
 		p = Popen(['bc'], stdout=PIPE, stdin=PIPE, stderr=STDOUT)
 		output = ProcessOutputThread(p, self.conn)
 		output.start()
